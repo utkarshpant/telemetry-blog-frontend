@@ -22,7 +22,8 @@
     font-family: "Newsreader";
     font-size: 22pt;
     color: black;
-    height: 5vw;
+    min-height: 1vh;
+    max-height: 30vh;
 }
 
 .StoryTitle::placeholder {
@@ -37,7 +38,8 @@
     font-family: "Newsreader";
     font-size: 18pt;
     color: #7a7a7a;
-    height: 5vw;
+    max-height: 60vh;
+    min-height: 5vh;
 }
 
 .StorySubtitle::placeholder {

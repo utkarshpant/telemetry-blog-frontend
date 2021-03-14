@@ -153,8 +153,8 @@ class Editor extends Component {
         if (this.props.mode == "new") {
             axios.post(`https://telemetry-blog.herokuapp.com/api/story/new/`, {
                 owner: this.context.user.username,
-                storyTitle: "Give your story a title...",
-                storyBody: "This is where your story begins.",
+                storyTitle: this.state.storyTitle,
+                storyBody: this.state.storyBody,
                 storySubtitle: this.state.storySubitle,
                 tags: []
             }, {
@@ -223,12 +223,13 @@ class Editor extends Component {
                                                         className="EditorButton"
                                                         onClick={(event) => {
                                                             event.preventDefault();
+                                                            console.log("Requesting unpublish", this.state.storyId);
                                                             axios.get(`https://telemetry-blog.herokuapp.com/api/story/${this.state.isPublished ? "unpublish" : "publish"}/${this.state.storyId}`)
                                                                 .then(response => {
                                                                     window.location.reload();
                                                                 })
                                                                 .catch(err => {
-                                                                    alert("Something went wrong. Try that again.");
+                                                                    alert(JSON.stringify(err.response.data));
                                                                 })
                                                         }}
                                                     />
@@ -278,8 +279,7 @@ class Editor extends Component {
                             events={["keydown", "mouseup"]}
                             onIdle={this.save}>
                             <Row className="EditorHeader">
-                                <input
-                                    type='textarea'
+                                <textarea
                                     className="StoryTitle"
                                     name="storyTitle"
                                     value={this.state.storyTitle}
@@ -289,7 +289,7 @@ class Editor extends Component {
                                         event.preventDefault();
                                         this.setState({ storyTitle: event.target.value, hasChanges: true });
                                     }} />
-                                <input
+                                <textarea
                                     className="StorySubtitle"
                                     name="storySubtitle"
                                     value={this.state.storySubtitle}
