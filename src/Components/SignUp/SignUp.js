@@ -96,11 +96,11 @@ class SignUpForm extends React.Component {
 
 		const validationErrors = this.checkValidations(formData);
 		if (validationErrors) {
-			console.log("Validation errors:", validationErrors);
+			
 			this.setState({ errors: validationErrors });
 		} else {
 			this.triggerSignUp(formData);
-			// console.log("Sign up triggered");
+			// 
 		}
 	}
 
@@ -133,10 +133,10 @@ class SignUpForm extends React.Component {
 			}
 		}
 
-		console.log("Final errors", errors);
+		
 
 		if (JSON.stringify(errors) != '{}') {
-			console.log("The following errors were detected", errors);
+			
 			return errors;
 		} else {
 			return null;
@@ -197,17 +197,17 @@ class SignUpForm extends React.Component {
 
 	triggerSignUp = (formData) => {
 		this.setState({ loading: true });
-		// console.log(formData);
+		// 
 		axios.post("https://telemetry-blog.herokuapp.com/api/user/signup", formData)
 			.then(response => {
-				console.log(response.data);
+				
 				this.setState({
 					statusText: "Check your email for the sign-in link. Don't forget to check your spam!",
 					loading: false
 				})
 			})
 			.catch(err => {
-				console.log(JSON.stringify(err.response.data.error));
+				
 				if (err.response.data.error == "USERNAME_TAKEN")
 				this.setState({
 					errors: {username: "This username is taken. Try another one?"},

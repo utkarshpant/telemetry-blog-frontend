@@ -42,7 +42,7 @@ class Header extends Component {
                 this.setState({ results: response.data.data, loadingResults: false });
             })
             .catch(err => {
-                console.log(err.response);
+                
             })
     }
 

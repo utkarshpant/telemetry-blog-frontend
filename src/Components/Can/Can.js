@@ -9,22 +9,22 @@ class Can extends Component {
     check = (rules, role, action, data) => {
         const permissions = rules[role];
         if (!permissions) {
-            console.log("The permission", action, "is not defined for", role);
+            
             return false;
         }
 
         const staticPermissions = permissions.static;
         if (staticPermissions && staticPermissions.includes(action)) {
-            console.log("The static permission", action, "is defined for", role);
+            
             return true;
         }
 
         const dynamicPermissions = permissions.dynamic;
         if (dynamicPermissions) {
-            console.log("The dynamic permission", action, "is defined for", role);
+            
             const permissionCondition = dynamicPermissions[action];
             if (!permissionCondition) {
-                console.log("The dynamic permission", action, "is DENIED for", role);
+                
                 return false;
             }
             return permissionCondition(data);
@@ -34,7 +34,7 @@ class Can extends Component {
     };
 
     render() {
-        console.log("permission:", this.check(rules, this.props.role, this.props.perform, this.props.data))
+        
         return this.check(rules, this.props.role, this.props.perform, this.props.data)
             ? this.props.yes()
             : this.props.no();

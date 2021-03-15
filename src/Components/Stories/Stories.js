@@ -37,7 +37,7 @@ class Stories extends Component {
         axios.get(`https://telemetry-blog.herokuapp.com/api/user/get/${this.user}/stories`)
             .then(storiesRes => {
                 this.setState({ stories: storiesRes.data.data });
-                console.log("Stories", storiesRes.data.data);
+                
                 // alert(JSON.stringify(this.state.stories));
             })
             .catch(err => {
@@ -54,7 +54,7 @@ class Stories extends Component {
     }
 
     render() {
-        console.log("Rendering stories for user", this.user);
+        
         return (
             <AuthConsumer>
                 {(value) => (

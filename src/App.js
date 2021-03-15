@@ -33,7 +33,7 @@ class App extends Component {
 	}
 
 	render(props) {
-		console.log("App render called");
+		
 		// let ctxt = this.context;
 		return (
 			<Auth>
