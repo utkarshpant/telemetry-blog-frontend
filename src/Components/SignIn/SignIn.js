@@ -105,10 +105,10 @@ class SignInForm extends React.Component {
 			}
 		}
 
-		console.log("Final errors", errors);
+		
 
 		if (JSON.stringify(errors) != '{}') {
-			console.log("The following errors were detected", errors);
+			
 			return errors;
 		} else {
 			return null;
@@ -168,7 +168,7 @@ class SignInForm extends React.Component {
 
 	triggerSignIn = (formData) => {
 		this.setState({ loading: true });
-		// console.log(formData);
+		// 
 		axios.post("https://telemetry-blog.herokuapp.com/api/user/signin", formData)
 			.then(response => {
 				this.setState({
@@ -177,7 +177,7 @@ class SignInForm extends React.Component {
 				})
 			})
 			.catch(err => {
-				console.log(JSON.stringify(err.response.data.error));
+				
 
 				// this.setState({
 				// 	statusText: "An error occured. Try again.",

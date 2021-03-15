@@ -20,7 +20,7 @@ class UserProfile extends Component {
 
 
     componentDidMount(props) {
-        console.log("this.context in UserProfile:\t", this.context);
+        
         this.props.me ?
             axios.get(`https://telemetry-blog.herokuapp.com/api/user/me`,
                 {
@@ -36,7 +36,7 @@ class UserProfile extends Component {
                 })
                 .catch(err => {
                     // check if the error is 404. Then redirect to 404!
-                    // console.log(err.data);
+                    // 
                     this.props.history.push('/404');
                 })
             :
@@ -49,7 +49,7 @@ class UserProfile extends Component {
                 })
                 .catch(err => {
                     // check if the error is 404. Then redirect to 404!
-                    // console.log(err.data);
+                    // 
                     this.props.history.push('/404');
                 })
 

@@ -23,10 +23,10 @@ class Authenticate extends Component {
     }
 
     componentDidMount(props) {
-        console.log("this.context in authenticate:\t", this.context);
+        
         axios.get(`https://telemetry-blog.herokuapp.com/api/user/authenticate/${this.randomString}?email=${this.email}`)
             .then(response => {
-                console.log("User data:\t", response.data.data);
+                
                 const user = response.data.data;
                 const role = response.data.role;
                 const token = response.data.token;

@@ -49,7 +49,7 @@ class Auth extends Component {
     };
 
     setUserData = (authResult) => {
-        console.log("Auth provider setUserData called");
+        
         this.setState({
             authenticated: true,
             user: authResult.user,
@@ -63,7 +63,7 @@ class Auth extends Component {
     };
 
     render() {
-        console.log("Auth provider render called");
+        
         const authProviderValue = {
             ...this.state,
             initiateLogin: this.initiateLogin,

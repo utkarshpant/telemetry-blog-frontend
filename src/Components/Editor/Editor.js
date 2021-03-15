@@ -69,7 +69,7 @@ class Editor extends Component {
                 }
             })
                 .then(response => {
-                    console.log("Saved story response", response.data.data);
+                    
                     const story = response.data.data;
                     const dateSaved = new Date(story.dateModified);
                     this.setState({
@@ -78,7 +78,7 @@ class Editor extends Component {
                     })
                 })
                 .catch(err => {
-                    console.log("Update story error response", err.response.data);
+                    
                 })
         }
     }
@@ -129,7 +129,7 @@ class Editor extends Component {
             axios.get(`https://telemetry-blog.herokuapp.com/api/story/get/${this.props.match.params.storyId}`)
                 .then(response => {
                     const story = response.data.data;
-                    console.log("View story response", response.data);
+                    
                     const dateCreated = new Date(story.dateModified);
                     this.setState({
                         storyId: story._id,
@@ -164,7 +164,7 @@ class Editor extends Component {
             })
                 .then(response => {
                     const story = response.data.data;
-                    console.log("New story reponse", response.data.data);
+                    
                     const dateCreated = new Date();
 
                     this.setState({
@@ -179,7 +179,7 @@ class Editor extends Component {
                     })
                 })
                 .catch(err => {
-                    console.log("Error occured in creating a story", err);
+                    
                 })
 
         }
@@ -244,7 +244,7 @@ class Editor extends Component {
                                                                     onClick={(event) => {
                                                                         // event.preventDefault();
                                                                         // this.props.history.push(`http://localhost:3000/story/edit/:storyId/${this.state.storyId}`);
-                                                                        // console.log('Hello!', this.state.storyId);
+                                                                        // 
                                                                     }}
                                                                 />
                                                             </a>
@@ -260,7 +260,7 @@ class Editor extends Component {
                                                             onClick={(event) => {
                                                                 // event.preventDefault();
                                                                 // this.props.history.push(`http://localhost:3000/story/edit/:storyId/${this.state.storyId}`);
-                                                                // console.log('Hello!', this.state.storyId);
+                                                                // 
                                                             }}
                                                         />
                                                     </a>

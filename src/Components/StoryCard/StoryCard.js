@@ -13,26 +13,26 @@ const Storycard = (props) => {
     const authContext = useContext(AuthContextType);
 
     const onPublishUnpublishHandler = (storyToUpdate) => {
-        console.log("Publish unpublish handler called for", storyToUpdate);
+        
         axios.get(`https://telemetry-blog.herokuapp.com/api/story/${storyToUpdate.isPublished ? "unpublish" : "publish"}/${storyToUpdate._id}`)
             .then(response => {
                 window.location.reload();
             })
             .catch(err => {
-                console.log("Error in updation", err.response);
+                
             })
         // TODO: Set up the unpublish POST request here
         // using axios;
     }
 
     const onDeleteHandler = (deletedStoryId) => {
-        console.log("Deletion handler called");
+        
         axios.delete(`https://telemetry-blog.herokuapp.com/api/story/delete/${deletedStoryId}`)
             .then(response => {
                 props.handleDeletion(deletedStoryId);
             })
             .catch(err => {
-                console.log("Error in deletion", err);
+                
             })
         // TODO: Set up the DELETE request here
         // using axios;
@@ -82,7 +82,7 @@ const Storycard = (props) => {
                             </span>
                         </div>
                         {
-                            console.log("authcontext username:", authContext.user.username, "post owner:", props.story.owner)
+                            
                         }
                     </div>
                 )}
