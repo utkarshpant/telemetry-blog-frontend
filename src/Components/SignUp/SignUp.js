@@ -18,7 +18,7 @@ class SignUpForm extends React.Component {
 				validations: {
 					required: true,
 					min: 5,
-					max: 30
+					max: 50
 				},
 			},
 			name: {
@@ -28,7 +28,7 @@ class SignUpForm extends React.Component {
 				validations: {
 					required: true,
 					min: 5,
-					max: 35
+					max: 50
 				},
 			},
 			username: {
@@ -38,7 +38,7 @@ class SignUpForm extends React.Component {
 				validations: {
 					required: true,
 					min: 5,
-					max: 35
+					max: 50
 				},
 			},
 			bio: {
