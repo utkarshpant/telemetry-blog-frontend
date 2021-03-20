@@ -199,135 +199,137 @@ class Editor extends Component {
             <AuthConsumer>
                 {(context) => (
                     <Container fluid className="EditorContainer">
-                            <Row className="AutosaveInformation">
-                                <Col lg={3} sm={12}>
-                                    <span>
-                                        This story was last saved at {`${this.state.saveTime}`}
-                                    </span>
-                                </Col>
-                                {
-                                    this.state.storyOwner
-                                        ? <Can
-                                            role={context.role}
-                                            perform="posts:edit"
-                                            data={{
-                                                username: context.authenticated ? context.user.username : null,
-                                                postOwner: this.state.storyOwner
-                                            }}
-                                            yes={() => (
-                                                <React.Fragment>
-                                                    <Col lg={3} sm={12}>
-                                                        <input
-                                                            type="submit"
-                                                            value={this.state.isPublished ? `Unpublish` : `Publish`}
-                                                            className="EditorButton"
-                                                            id="publishBtn"
-                                                            onClick={(event) => {
-                                                                event.preventDefault();
-                                                                console.log("Requesting unpublish", this.state.storyId);
-                                                                axios.get(`https://telemetry-blog.herokuapp.com/api/story/${this.state.isPublished ? "unpublish" : "publish"}/${this.state.storyId}`)
-                                                                    .then(response => {
-                                                                        window.location.reload();
-                                                                    })
-                                                                    .catch(err => {
-                                                                        alert(JSON.stringify(err.response.data));
-                                                                    })
-                                                            }}
-                                                        />
-                                                    </Col>
-                                                    {
-                                                        this.props.mode == "view"
-                                                            ? <Col lg={3} sm={12}>
-                                                                <a href={`/story/edit/${this.state.storyId}`}>
-                                                                    <input
-                                                                        type="submit"
-                                                                        value="Edit"
-                                                                        className="EditorButton"
-                                                                        id="editBtn"
-                                                                        onClick={(event) => {
-                                                                            // event.preventDefault();
-                                                                            // this.props.history.push(`http://localhost:3000/story/edit/:storyId/${this.state.storyId}`);
-                                                                            // console.log('Hello!', this.state.storyId);
-                                                                        }}
-                                                                    />
-                                                                </a>
-                                                            </Col>
-                                                            : null
-                                                    }
-                                                </React.Fragment>
-                                            )}
-                                        />
-                                        : null
-                                }
-                                <Col lg={3} sm={12}>
-                                    <a href={`/${this.state.storyOwner}`}>
-                                        <input
-                                            type="submit"
-                                            value={`Back to ${this.state.storyOwner}'s stories.`}
-                                            className="EditorButton"
-                                            id="backBtn"
-                                            onClick={(event) => {
-                                                // event.preventDefault();
-                                                // this.props.history.push(`http://localhost:3000/story/edit/:storyId/${this.state.storyId}`);
-                                                // console.log('Hello!', this.state.storyId);
-                                            }}
-                                        />
-                                    </a>
-                                </Col>
+                        <Row className="AutosaveInformation">
+                            <Col lg={3} sm={12}>
+                                <span>
+                                    This story was last saved at {`${this.state.saveTime}`}
+                                </span>
+                            </Col>
+                            {
+                                this.state.storyOwner
+                                    ? <Can
+                                        role={context.role}
+                                        perform="posts:edit"
+                                        data={{
+                                            username: context.authenticated ? context.user.username : null,
+                                            postOwner: this.state.storyOwner
+                                        }}
+                                        yes={() => (
+                                            <React.Fragment>
+                                                <Col lg={3} sm={12}>
+                                                    <input
+                                                        type="submit"
+                                                        value={this.state.isPublished ? `Unpublish` : `Publish`}
+                                                        className="EditorButton"
+                                                        id="publishBtn"
+                                                        onClick={(event) => {
+                                                            event.preventDefault();
+                                                            console.log("Requesting unpublish", this.state.storyId);
+                                                            axios.get(`https://telemetry-blog.herokuapp.com/api/story/${this.state.isPublished ? "unpublish" : "publish"}/${this.state.storyId}`)
+                                                                .then(response => {
+                                                                    window.location.reload();
+                                                                })
+                                                                .catch(err => {
+                                                                    alert(JSON.stringify(err.response.data));
+                                                                })
+                                                        }}
+                                                    />
+                                                </Col>
+                                                {
+                                                    this.props.mode == "view"
+                                                        ? <Col lg={3} sm={12}>
+                                                            <a href={`/story/edit/${this.state.storyId}`}>
+                                                                <input
+                                                                    type="submit"
+                                                                    value="Edit"
+                                                                    className="EditorButton"
+                                                                    id="editBtn"
+                                                                    onClick={(event) => {
+                                                                        // event.preventDefault();
+                                                                        // this.props.history.push(`http://localhost:3000/story/edit/:storyId/${this.state.storyId}`);
+                                                                        // console.log('Hello!', this.state.storyId);
+                                                                    }}
+                                                                />
+                                                            </a>
+                                                        </Col>
+                                                        : null
+                                                }
+                                            </React.Fragment>
+                                        )}
+                                    />
+                                    : null
+                            }
+                            <Col lg={3} sm={12}>
+                                <a href={`/${this.state.storyOwner}`}>
+                                    <input
+                                        type="submit"
+                                        value={`Back to ${this.state.storyOwner}'s stories.`}
+                                        className="EditorButton"
+                                        id="backBtn"
+                                        onClick={(event) => {
+                                            // event.preventDefault();
+                                            // this.props.history.push(`http://localhost:3000/story/edit/:storyId/${this.state.storyId}`);
+                                            // console.log('Hello!', this.state.storyId);
+                                        }}
+                                    />
+                                </a>
+                            </Col>
+                        </Row>
+                        <IdleTimer
+                            timeout={1500}
+                            ref={ref => { this.idleTimer = ref }}
+                            startOnMount={false}
+                            events={["keydown", "mouseup"]}
+                            onIdle={this.save}>
+                            <Row className="EditorHeader">
+                                <input
+                                    type="text"
+                                    className="StoryTitle"
+                                    name="storyTitle"
+                                    value={this.state.storyTitle}
+                                    placeholder="Give your story a title...."
+                                    disabled={this.props.mode == "view" ? true : false}
+                                    onChange={(event) => {
+                                        event.preventDefault();
+                                        this.setState({ storyTitle: event.target.value, hasChanges: true });
+                                    }} />
+                                <input
+                                    type="text"
+                                    className="StorySubtitle"
+                                    name="storySubtitle"
+                                    value={this.state.storySubtitle}
+                                    placeholder="and an optional subtitle."
+                                    disabled={this.props.mode == "view" ? true : false}
+                                    onChange={(event) => {
+                                        event.preventDefault();
+                                        this.setState({ storySubtitle: event.target.value, hasChanges: true });
+                                    }} />
                             </Row>
-                            <IdleTimer
-                                timeout={1500}
-                                ref={ref => { this.idleTimer = ref }}
-                                startOnMount={false}
-                                events={["keydown", "mouseup"]}
-                                onIdle={this.save}>
-                                <Row className="EditorHeader">
-                                    <textarea
-                                        className="StoryTitle"
-                                        name="storyTitle"
-                                        value={this.state.storyTitle}
-                                        placeholder="Give your story a title...."
-                                        disabled={this.props.mode == "view" ? true : false}
-                                        onChange={(event) => {
-                                            event.preventDefault();
-                                            this.setState({ storyTitle: event.target.value, hasChanges: true });
-                                        }} />
-                                    <textarea
-                                        className="StorySubtitle"
-                                        name="storySubtitle"
-                                        value={this.state.storySubtitle}
-                                        placeholder="and an optional subtitle."
-                                        disabled={this.props.mode == "view" ? true : false}
-                                        onChange={(event) => {
-                                            event.preventDefault();
-                                            this.setState({ storySubtitle: event.target.value, hasChanges: true });
-                                        }} />
-                                </Row>
-                                <Row className="Editor">
-                                    <ReactQuill
-                                        ref={(el) => { this.reactQuillRef = el }}
-                                        value={this.state.storyBody}
-                                        onChange={this.handleChange}
-                                        theme="bubble"
-                                        style={
-                                            { fontFamily: "Newsreader" }
+                            <Row className="Editor">
+                                <ReactQuill
+                                    ref={(el) => { this.reactQuillRef = el }}
+                                    value={this.state.storyBody}
+                                    onChange={this.handleChange}
+                                    theme="bubble"
+                                    style={
+                                        { fontFamily: "Newsreader" }
+                                    }
+                                    modules={
+                                        {
+                                            toolbar: [
+                                                [{ 'header': [1, 2, 3, 4, false] }],
+                                                ['bold', 'italic', 'underline', 'strike', 'blockquote', 'code-block'],
+                                                [{ 'script': 'sub' }, { 'script': 'super' }],
+                                                [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'indent': '-1' }, { 'indent': '+1' }],
+                                                ['link', 'image', 'video'],
+                                                ['clean'],
+                                                [{ 'align': [] }]
+                                            ]
                                         }
-                                        modules={
-                                            {
-                                                toolbar: [
-                                                    [{ 'header': [1, 2, 3, 4, false] }],
-                                                    ['bold', 'italic', 'underline', 'strike', 'blockquote', 'code-block'],
-                                                    [{ 'script': 'sub' }, { 'script': 'super' }],
-                                                    [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'indent': '-1' }, { 'indent': '+1' }],
-                                                    ['link', 'image', 'video'],
-                                                    ['clean'],
-                                                    [{ 'align': [] }]
-                                                ]
-                                            }
-                                        }
-                                        placeholder="Now, begin your story here." />
-                                </Row>
-                            </IdleTimer>
+                                    }
+                                    placeholder="Now, begin your story here." />
+                            </Row>
+                        </IdleTimer>
                     </Container>
                 )}
             </AuthConsumer>

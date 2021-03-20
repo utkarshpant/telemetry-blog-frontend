@@ -61,7 +61,7 @@
     padding: 10px 0px 0px 10px;
     font-size: 18pt;
     font-family: "Cabin";
-    font-weight: bold;
+    /* font-weight: bold; */
     width: 100%;
 }
 
@@ -71,8 +71,8 @@
     margin: 10px 10px 10px 0px;
     padding: 10px;
     font-family: "Cabin";
-    font-size: 16pt;
-    color: #000000;
+    font-size: 12pt;
+    color: #7a7a7a;
 }
 
 .storyTags {
