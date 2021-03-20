@@ -72,9 +72,19 @@ class App extends Component {
 								</Route>
 
 								<Route path="/story/new" exact render={(props) => (
-									this.context.authenticated
-										? <Editor {...props} mode="new" {...props} />
-										: <SignIn {...props} />
+									// this.context.authenticated
+									// 	? <Editor mode="new" {...props} />
+									// 	: <SignIn {...props} />
+									<Can
+										role={this.context.role}
+										perform={"posts:create"}
+										yes={(props) => (
+											<Editor mode="new" {...props} />
+										)}
+										no={(props) => (
+											<SignIn {...props} />
+										)}
+									/>
 								)}>
 								</Route>
 
