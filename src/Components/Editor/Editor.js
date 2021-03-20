@@ -199,7 +199,6 @@ class Editor extends Component {
             <AuthConsumer>
                 {(context) => (
                     <Container fluid className="EditorContainer">
-                        <div className="EditorPaddingWrapper">
                             <Row className="AutosaveInformation">
                                 <Col lg={3} sm={12}>
                                     <span>
@@ -329,7 +328,6 @@ class Editor extends Component {
                                         placeholder="Now, begin your story here." />
                                 </Row>
                             </IdleTimer>
-                        </div>
                     </Container>
                 )}
             </AuthConsumer>
