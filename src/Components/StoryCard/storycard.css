@@ -47,6 +47,13 @@
     border-bottom-right-radius: 5px;
 }
 
+.GradientContainer {
+    border-radius: 5px;
+    background: #da4453; /* fallback for old browsers */
+    background: -webkit-linear-gradient(to left, #da4453, #89216b); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to left, #da4453, #89216b); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
 .StoryCardTitle {
     min-height: 10vh;
     padding: 10px 0px 0px 10px;
@@ -86,7 +93,7 @@
     margin: 5px;
     text-decoration: none;
     transition: color 0.15s linear;
-    color: #0a375b;
+    color: #ffffff;
     cursor: pointer;
 }
 
@@ -97,7 +104,7 @@
 
 #deleteStoryLink {
     font-weight: bold;
-    color: #0a375b;
+    color: #ffffff;
 }
 
 #deleteStoryLink:hover {
