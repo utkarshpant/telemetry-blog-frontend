@@ -32,9 +32,7 @@ class Auth extends Component {
     };
 
     initiateLogin = () => {
-        return (
-            this.props.history.push('/signin')
-        )
+            this.props.history.push('/signin');
     };
 
     logout = () => {

@@ -46,7 +46,7 @@ class Header extends Component {
 
         // new token;
         this.cancelToken = axios.CancelToken.source();
-
+        console.log(process.env.REACT_APP_API_URL);
         axios.get(`${process.env.REACT_APP_API_URL}/api/search?querystring=${this.state.query}`, {
             cancelToken: this.cancelToken.token
         })
@@ -98,9 +98,11 @@ class Header extends Component {
                                             ? <button className="Logout" onClick={() => {
                                                 this.context.logout();
                                             }}>
-                                                Log me out.
+                                                Sign out.
                                             </button>
-                                            : <a href="/signin">Sign me in.</a>
+                                            : <a className="Logout" href='/signin'>
+                                                Sign in.
+                                            </a>
                                     }
                                 </Col>
                             </Row>

@@ -169,8 +169,8 @@ class SignInForm extends React.Component {
 	triggerSignIn = (formData) => {
 		this.setState({ loading: true });
 		// console.log(formData);
-		console.log(process.env.REACT_APP_API_URL, " is the API URL");
-		axios.post(`${process.env.REACT_APP_API_URL}/api/user/signin`, formData)
+		const url = `${process.env.REACT_APP_API_URL}/api/user/signin`; 
+		axios.post(url, formData)
 			.then(response => {
 				this.setState({
 					statusText: "Check your email for the sign-in link. Don't forget to check your spam!",
