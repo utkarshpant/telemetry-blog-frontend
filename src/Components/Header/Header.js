@@ -26,38 +26,39 @@ class Header extends Component {
             this.timeOfDay = "evening";
         }
 
-        let cancelToken = null;
+        let cancelToken = undefined;
     };
 
     state = {
         user: null,
         searchOpen: false,
-        query: "",
+        query: null,
         results: null,
         loadingResults: false
     }
 
-    fireSearch = () => {
+    fireSearch = (query) => {
         this.setState({ loadingResults: true });
         if (typeof this.cancelToken != typeof undefined) {
             // cancel token exists;
             this.cancelToken.cancel('Request cancelled due to new search request');
+            console.log("Cancel occured");
         }
 
         // new token;
         this.cancelToken = axios.CancelToken.source();
-        console.log(process.env.REACT_APP_API_URL);
-        axios.get(`${process.env.REACT_APP_API_URL}/api/search?querystring=${this.state.query}`, {
+        // console.log(process.env.REACT_APP_API_URL);
+        axios.get(`${process.env.REACT_APP_API_URL}/api/search?querystring=${query}`, {
             cancelToken: this.cancelToken.token
         })
-        .then(response => {
-            this.setState({ results: response.data.data, loadingResults: false });
-            // alert(JSON.stringify(response.data.data));
-        })
-        .catch(err => {
-            console.log(err);
-            // alert(JSON.stringify(err.response));
-        })
+            .then(response => {
+                this.setState({ results: response.data.data, loadingResults: false });
+                // alert(JSON.stringify(response.data.data));
+            })
+            .catch(err => {
+                console.log(err);
+                // alert(JSON.stringify(err.response));
+            })
     }
 
     render(props) {
@@ -81,11 +82,13 @@ class Header extends Component {
                                         }}
                                         onChange={(event) => {
                                             event.preventDefault();
-                                            if (event.target.value == "") {
-                                                this.setState({ results: null });
-                                            }
                                             this.setState({ query: event.target.value });
-                                            this.fireSearch();
+                                            if (event.target.value == "") {
+                                                this.setState({ query: event.target.value, results: null });
+                                            }
+
+                                            this.fireSearch(event.target.value);
+                                            // console.log(this.state.query);
                                         }}
                                     />
                                 </Col>

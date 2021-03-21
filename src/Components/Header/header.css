@@ -120,6 +120,9 @@
     padding: 10px;
     border-radius: 10px;
     overflow-y: auto;
+    /* display: grid;
+    align-items: center;
+    grid-template-columns: repeat(auto-fit, 4fr); */
 }
 
 ::-webkit-scrollbar {
