@@ -33,6 +33,7 @@ class Editor extends Component {
         this.quillRef = null;           //quill instance reference;
         this.save = this.save.bind(this);
         this.idleTimer = null;
+        this.publishBtnRef = null;
     };
 
     state = {
@@ -55,7 +56,7 @@ class Editor extends Component {
     save() {
         if (this.props.mode != "view") {
             const dateModified = Date();
-            axios.post(`https://telemetry-blog.herokuapp.com/api/story/update/${this.state.storyId}`, {
+            axios.post(`${process.env.REACT_APP_API_URL}/api/story/update/${this.state.storyId}`, {
                 owner: this.context.user.username,
                 content: {
                     title: this.state.storyTitle == "" ? "A story you saved without a title" : this.state.storyTitle,
@@ -78,7 +79,7 @@ class Editor extends Component {
                     })
                 })
                 .catch(err => {
-                    console.log("Update story error response", err.response.data);
+                    console.log("Update story error response", err);
                 })
         }
     }
@@ -95,7 +96,7 @@ class Editor extends Component {
         // if editing an existing story, retrieve it and check ownership
         // if all good, set editor values;
         if (this.props.mode == "edit") {
-            axios.get(`https://telemetry-blog.herokuapp.com/api/story/get/${this.props.match.params.storyId}`)
+            axios.get(`${process.env.REACT_APP_API_URL}/api/story/get/${this.props.match.params.storyId}`)
                 .then(response => {
                     const story = response.data.data;
                     if (story.owner == this.context.user.username) {
@@ -126,7 +127,7 @@ class Editor extends Component {
         // the editor values, with all fields disabled;
         if (this.props.mode == "view") {
             this.quillRef.disable(true);
-            axios.get(`https://telemetry-blog.herokuapp.com/api/story/get/${this.props.match.params.storyId}`)
+            axios.get(`${process.env.REACT_APP_API_URL}/api/story/get/${this.props.match.params.storyId}`)
                 .then(response => {
                     const story = response.data.data;
                     console.log("View story response", response.data);
@@ -151,7 +152,7 @@ class Editor extends Component {
         // then set its ID and values to state;
         // after this it is equivalent to editing an existing story;
         if (this.props.mode == "new") {
-            axios.post(`https://telemetry-blog.herokuapp.com/api/story/new/`, {
+            axios.post(`${process.env.REACT_APP_API_URL}/api/story/new/`, {
                 owner: this.context.user.username,
                 storyTitle: this.state.storyTitle,
                 storyBody: this.state.storyBody,
@@ -221,13 +222,15 @@ class Editor extends Component {
                                                         type="submit"
                                                         value={this.state.isPublished ? `Unpublish` : `Publish`}
                                                         className="EditorButton"
+                                                        ref={ref => {this.publishBtnRef = ref}}
                                                         id="publishBtn"
                                                         onClick={(event) => {
                                                             event.preventDefault();
                                                             console.log("Requesting unpublish", this.state.storyId);
-                                                            axios.get(`https://telemetry-blog.herokuapp.com/api/story/${this.state.isPublished ? "unpublish" : "publish"}/${this.state.storyId}`)
+                                                            axios.get(`${process.env.REACT_APP_API_URL}/api/story/${this.state.isPublished ? "unpublish" : "publish"}/${this.state.storyId}`)
                                                                 .then(response => {
-                                                                    window.location.reload();
+                                                                    this.setState({isPublished: !this.state.isPublished});
+                                                                    this.publishBtnRef.value = this.state.isPublished ? `Unpublish` : `Publish`
                                                                 })
                                                                 .catch(err => {
                                                                     alert(JSON.stringify(err.response.data));

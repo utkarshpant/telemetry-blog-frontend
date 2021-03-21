@@ -198,7 +198,7 @@ class SignUpForm extends React.Component {
 	triggerSignUp = (formData) => {
 		this.setState({ loading: true });
 		// console.log(formData);
-		axios.post("https://telemetry-blog.herokuapp.com/api/user/signup", formData)
+		axios.post(`${process.env.REACT_APP_API_URL}/api/user/signup`, formData)
 			.then(response => {
 				console.log(response.data);
 				this.setState({

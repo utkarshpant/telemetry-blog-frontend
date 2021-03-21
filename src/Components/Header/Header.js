@@ -47,7 +47,7 @@ class Header extends Component {
         // new token;
         this.cancelToken = axios.CancelToken.source();
 
-        axios.get(`https://telemetry-blog.herokuapp.com/api/search?querystring=${this.state.query}`, {
+        axios.get(`${process.env.REACT_APP_API_URL}/api/search?querystring=${this.state.query}`, {
             cancelToken: this.cancelToken.token
         })
         .then(response => {

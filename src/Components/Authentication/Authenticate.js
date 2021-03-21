@@ -24,7 +24,7 @@ class Authenticate extends Component {
 
     componentDidMount(props) {
         console.log("this.context in authenticate:\t", this.context);
-        axios.get(`https://telemetry-blog.herokuapp.com/api/user/authenticate/${this.randomString}?email=${this.email}`)
+        axios.get(`${process.env.REACT_APP_API_URL}/api/user/authenticate/${this.randomString}?email=${this.email}`)
             .then(response => {
                 console.log("User data:\t", response.data.data);
                 const user = response.data.data;
