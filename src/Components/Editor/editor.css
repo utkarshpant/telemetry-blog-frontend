@@ -74,11 +74,14 @@
     font-family: "Cabin";
     font-size: 14pt;
     text-align: justify;
+    /* padding: 5vw; */
 }
 
 .ql-editor {
     padding: 5vw;
     text-align: justify;
+    /* letter-spacing: 0.075rem; */
+    line-height: 2.3rem;
 }
 
 .ql-editor blockquote {
@@ -91,6 +94,7 @@
     font-family: "Newsreader";
     font-style: normal;
     color: #7a7a7a80;
+    padding: 0vw 4vw;
 }
 
 pre.ql-syntax {
