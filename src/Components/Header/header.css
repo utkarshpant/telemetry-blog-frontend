@@ -31,14 +31,14 @@
 }
 
 .Logout {
-    background: #0A375Bdd;
-    box-shadow: 0px 2px 5px #00000060;
-    border-radius: 5px;
     padding: 10px;
-    color: #ffffff;
     outline: none !important;
     border: none;
     font-weight: bold;
+    background: -webkit-linear-gradient(to right, #e96443, #904e95);
+    background: linear-gradient(to right, #e96443, #904e95); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .SearchBar {
@@ -112,7 +112,7 @@
     color: #000000;
     font-size: 18pt;
     font-family: "Cabin";
-    padding: 20px;
+    padding-left: 20px;
 }
 
 .AuthorResults {
@@ -120,6 +120,9 @@
     padding: 10px;
     border-radius: 10px;
     overflow-y: auto;
+    /* display: grid;
+    align-items: center;
+    grid-template-columns: repeat(auto-fit, 4fr); */
 }
 
 ::-webkit-scrollbar {

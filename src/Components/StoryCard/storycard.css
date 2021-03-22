@@ -1,26 +1,28 @@
 .StoryCard {
-    max-width: 60vw;
+    max-width: 100vw;
+    width: 100vw;
     border-radius: 5px;
     color: #000000;
-    padding: 20px;
-    margin: 10px 10px 0px 20px;
+    padding: 0px 20px;
+    margin: 10px 20px 0px 20px;
     max-height: 50vh;
     font-family: "Cabin";
     box-shadow: 0px 0px 10px #1a1a1a30;
     display: flex;
     flex-direction: column;
-    min-width: 60vw;
+    /* min-width: 60vw; */
 }
 
 .StoryDetails {
-    padding: 10px auto;
-    max-width: 40vw;
+    padding: 10px;
+    width: 100vw;
+    max-width: 100vw;
     display: flex;
     flex-direction: column;
 }
 
 .StoryCardLink {
-    width: 50vw;
+    width: 70vw;
     text-decoration: none;
     color: #000000;
 }
@@ -46,11 +48,21 @@
     border-bottom-right-radius: 5px;
 }
 
+.GradientContainer {
+    margin: 10px -10px;
+    border-radius: 5px;
+    background: #da4453; /* fallback for old browsers */
+    background: -webkit-linear-gradient(to left, #da4453, #89216b); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to left, #da4453, #89216b); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
 .StoryCardTitle {
     min-height: 10vh;
     padding: 10px 0px 0px 10px;
     font-size: 18pt;
     font-family: "Cabin";
+    /* font-weight: bold; */
+    width: 100%;
 }
 
 .StoryCardSubtitle {
@@ -60,7 +72,7 @@
     padding: 10px;
     font-family: "Cabin";
     font-size: 12pt;
-    color: #000000;
+    color: #7a7a7a;
 }
 
 .storyTags {
@@ -84,7 +96,8 @@
     margin: 5px;
     text-decoration: none;
     transition: color 0.15s linear;
-    color: #0a375b;
+    color: #ffffff;
+    cursor: pointer;
 }
 
 .StoryOptions:hover {
@@ -94,7 +107,7 @@
 
 #deleteStoryLink {
     font-weight: bold;
-    color: #0a375b;
+    color: #ffffff;
 }
 
 #deleteStoryLink:hover {

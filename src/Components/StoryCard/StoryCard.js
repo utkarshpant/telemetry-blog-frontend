@@ -47,49 +47,51 @@ const Storycard = (props) => {
                         <span>{props.story.content.title}</span>
                     </div>
                     <div className="StoryCardSubtitle">
-                        <span >{props.story.content.subtitle.substring(0, 30) + '...'}</span>
+                        <span >{props.story.content.subtitle ? props.story.content.subtitle.substring(0, 30) + '...' : ""}</span>
                     </div>
                 </a>
             </div>
-            <Can
-                role={authContext.role}
-                perform="posts:edit"
-                data={{ username: authContext.user ? authContext.user.username : null, postOwner: props.story.owner }}
-                yes={() => (
-                    <div className="StoryEditControlsContainer">
-                        <div className="text-left">
-                            <a href={`story/edit/${props.story._id}`} id="editStoryLink" className="StoryOptions">Edit</a>
-                        </div>
-                        <div className="text-md-left text-sm-left">
-                            <span
-                                id="unpublishStoryLink"
-                                className="StoryOptions"
-                                onClick={(event) => {
-                                    onPublishUnpublishHandler(props.story);
-                                }}
-                            >
-                                {props.story.isPublished ? "Unpublish" : "Publish"}
+            <div className="GradientContainer">
+                <Can
+                    role={authContext.role}
+                    perform="posts:edit"
+                    data={{ username: authContext.user ? authContext.user.username : null, postOwner: props.story.owner }}
+                    yes={() => (
+                        <div className="StoryEditControlsContainer">
+                            <div className="text-left">
+                                <a href={`story/edit/${props.story._id}`} id="editStoryLink" className="StoryOptions">Edit</a>
+                            </div>
+                            <div className="text-md-left text-sm-left">
+                                <span
+                                    id="unpublishStoryLink"
+                                    className="StoryOptions"
+                                    onClick={(event) => {
+                                        onPublishUnpublishHandler(props.story);
+                                    }}
+                                >
+                                    {props.story.isPublished ? "Unpublish" : "Publish"}
+                                </span>
+                            </div>
+                            <div className="text-md-left text-sm-left">
+                                <span
+                                    id="deleteStoryLink"
+                                    className="StoryOptions"
+                                    onClick={(event) => {
+                                        onDeleteHandler(props.story._id);
+                                    }}>
+                                    Delete
                             </span>
+                            </div>
+                            {
+                                console.log("authcontext username:", authContext.user.username, "post owner:", props.story.owner)
+                            }
                         </div>
-                        <div className="text-md-left text-sm-left">
-                            <span
-                                id="deleteStoryLink"
-                                className="StoryOptions"
-                                onClick={(event) => {
-                                    onDeleteHandler(props.story._id);
-                                }}>
-                                Delete
-                            </span>
-                        </div>
-                        {
-                            console.log("authcontext username:", authContext.user.username, "post owner:", props.story.owner)
-                        }
-                    </div>
-                )}
-                no={() => {
-                    return null;
-                }}
-            />
+                    )}
+                    no={() => {
+                        return null;
+                    }}
+                />
+            </div>
         </div>
     )
 };

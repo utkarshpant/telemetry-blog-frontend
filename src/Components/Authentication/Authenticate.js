@@ -19,12 +19,12 @@ class Authenticate extends Component {
     constructor(props) {
         super(props);
         this.randomString = this.props.match.params.randomString;
-        this.email = new URLSearchParams(this.props.location.search).get('email');
+        this.username = new URLSearchParams(this.props.location.search).get('username');
     }
 
     componentDidMount(props) {
         console.log("this.context in authenticate:\t", this.context);
-        axios.get(`https://telemetry-blog.herokuapp.com/api/user/authenticate/${this.randomString}?email=${this.email}`)
+        axios.get(`${process.env.REACT_APP_API_URL}/api/user/authenticate/${this.randomString}?username=${this.username}`)
             .then(response => {
                 console.log("User data:\t", response.data.data);
                 const user = response.data.data;
@@ -46,7 +46,7 @@ class Authenticate extends Component {
     render() {
         return (
             <Row className="AuthenticateContainer">
-                <span className="AuthenticateMessage">Trying to sign you in with email <strong>{this.email}</strong>. <br /><br />If that works, we'll take you home.</span>
+                <span className="AuthenticateMessage">Trying to sign you in with username <strong>{this.username}</strong>. <br /><br />If that works, we'll take you home. Otherwise, we go-around.</span>
             </Row>
         )
     }

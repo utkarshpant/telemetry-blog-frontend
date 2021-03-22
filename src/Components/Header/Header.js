@@ -25,24 +25,39 @@ class Header extends Component {
         } else if (hourOfDay > 16 && hourOfDay <= 23) {
             this.timeOfDay = "evening";
         }
+
+        let cancelToken = undefined;
     };
 
     state = {
         user: null,
         searchOpen: false,
-        query: "",
+        query: null,
         results: null,
         loadingResults: false
     }
 
-    fireSearch = () => {
+    fireSearch = (query) => {
         this.setState({ loadingResults: true });
-        axios.get(`https://telemetry-blog.herokuapp.com/api/search?querystring=${this.state.query}`)
+        if (typeof this.cancelToken != typeof undefined) {
+            // cancel token exists;
+            this.cancelToken.cancel('Request cancelled due to new search request');
+            console.log("Cancel occured");
+        }
+
+        // new token;
+        this.cancelToken = axios.CancelToken.source();
+        // console.log(process.env.REACT_APP_API_URL);
+        axios.get(`${process.env.REACT_APP_API_URL}/api/search?querystring=${query}`, {
+            cancelToken: this.cancelToken.token
+        })
             .then(response => {
                 this.setState({ results: response.data.data, loadingResults: false });
+                // alert(JSON.stringify(response.data.data));
             })
             .catch(err => {
-                console.log(err.response);
+                console.log(err);
+                // alert(JSON.stringify(err.response));
             })
     }
 
@@ -57,29 +72,25 @@ class Header extends Component {
                                     <span><a href="/"><img src="/images/Wordmark.svg"></img></a></span>
                                 </Col>
                                 <Col lg={6} md={12} id="headerSearch" className="text-center text-lg-center d-inline d-lg-inline d-md-inline d-sm-inline">
-                                    <IdleTimer
-                                        timeout={3000}
-                                        ref={ref => { this.idleTimer = ref }}
-                                        startOnMount={false}
-                                        onIdle={this.fireSearch}
-                                        events={['keypress']}>
-                                        <input
-                                            type="text"
-                                            className="SearchBar"
-                                            placeholder="Search by authors or story titles/subtitles."
-                                            value={this.state.query}
-                                            onClick={(event) => {
-                                                this.setState({ searchOpen: true });
-                                            }}
-                                            onChange={(event) => {
-                                                event.preventDefault();
-                                                if (event.target.value == "") {
-                                                    this.setState({ results: null });
-                                                }
-                                                this.setState({ query: event.target.value });
-                                            }}
-                                        />
-                                    </IdleTimer>
+                                    <input
+                                        type="text"
+                                        className="SearchBar"
+                                        placeholder="Search by authors or story titles/subtitles."
+                                        value={this.state.query}
+                                        onClick={(event) => {
+                                            this.setState({ searchOpen: true });
+                                        }}
+                                        onChange={(event) => {
+                                            event.preventDefault();
+                                            this.setState({ query: event.target.value });
+                                            if (event.target.value == "") {
+                                                this.setState({ query: event.target.value, results: null });
+                                            }
+
+                                            this.fireSearch(event.target.value);
+                                            // console.log(this.state.query);
+                                        }}
+                                    />
                                 </Col>
                                 <Col lg={2} md={12} id="headerGreeting" className="text-right text-md-right text-sm-left d-inline d-lg-inline d-md-inline d-sm-inline">
                                     {`Good ${this.timeOfDay}${value.authenticated ? ', ' + value.user.firstName : ""}!`}
@@ -90,9 +101,11 @@ class Header extends Component {
                                             ? <button className="Logout" onClick={() => {
                                                 this.context.logout();
                                             }}>
-                                                Log me out.
+                                                Sign out.
                                             </button>
-                                            : <a href="/signin">Sign me in.</a>
+                                            : <a className="Logout" href='/signin'>
+                                                Sign in.
+                                            </a>
                                     }
                                 </Col>
                             </Row>

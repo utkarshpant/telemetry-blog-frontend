@@ -34,7 +34,7 @@ class Stories extends Component {
     }
 
     componentDidMount = () => {
-        axios.get(`https://telemetry-blog.herokuapp.com/api/user/get/${this.user}/stories`)
+        axios.get(`${process.env.REACT_APP_API_URL}/api/user/get/${this.user}/stories`)
             .then(storiesRes => {
                 this.setState({ stories: storiesRes.data.data });
                 console.log("Stories", storiesRes.data.data);

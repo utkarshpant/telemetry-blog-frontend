@@ -33,6 +33,7 @@ class Editor extends Component {
         this.quillRef = null;           //quill instance reference;
         this.save = this.save.bind(this);
         this.idleTimer = null;
+        this.publishBtnRef = null;
     };
 
     state = {
@@ -55,7 +56,7 @@ class Editor extends Component {
     save() {
         if (this.props.mode != "view") {
             const dateModified = Date();
-            axios.post(`https://telemetry-blog.herokuapp.com/api/story/update/${this.state.storyId}`, {
+            axios.post(`${process.env.REACT_APP_API_URL}/api/story/update/${this.state.storyId}`, {
                 owner: this.context.user.username,
                 content: {
                     title: this.state.storyTitle == "" ? "A story you saved without a title" : this.state.storyTitle,
@@ -78,7 +79,7 @@ class Editor extends Component {
                     })
                 })
                 .catch(err => {
-                    console.log("Update story error response", err.response.data);
+                    console.log("Update story error response", err);
                 })
         }
     }
@@ -95,7 +96,7 @@ class Editor extends Component {
         // if editing an existing story, retrieve it and check ownership
         // if all good, set editor values;
         if (this.props.mode == "edit") {
-            axios.get(`https://telemetry-blog.herokuapp.com/api/story/get/${this.props.match.params.storyId}`)
+            axios.get(`${process.env.REACT_APP_API_URL}/api/story/get/${this.props.match.params.storyId}`)
                 .then(response => {
                     const story = response.data.data;
                     if (story.owner == this.context.user.username) {
@@ -126,7 +127,7 @@ class Editor extends Component {
         // the editor values, with all fields disabled;
         if (this.props.mode == "view") {
             this.quillRef.disable(true);
-            axios.get(`https://telemetry-blog.herokuapp.com/api/story/get/${this.props.match.params.storyId}`)
+            axios.get(`${process.env.REACT_APP_API_URL}/api/story/get/${this.props.match.params.storyId}`)
                 .then(response => {
                     const story = response.data.data;
                     console.log("View story response", response.data);
@@ -151,9 +152,9 @@ class Editor extends Component {
         // then set its ID and values to state;
         // after this it is equivalent to editing an existing story;
         if (this.props.mode == "new") {
-            axios.post(`https://telemetry-blog.herokuapp.com/api/story/new/`, {
+            axios.post(`${process.env.REACT_APP_API_URL}/api/story/new/`, {
                 owner: this.context.user.username,
-                storyTitle: "Give your story a title...",
+                storyTitle: this.state.storyTitle,
                 storyBody: this.state.storyBody,
                 storySubtitle: this.state.storySubitle,
                 tags: []
@@ -200,7 +201,7 @@ class Editor extends Component {
                 {(context) => (
                     <Container fluid className="EditorContainer">
                         <Row className="AutosaveInformation">
-                            <Col md={3} sm={12}>
+                            <Col lg={3} sm={12}>
                                 <span>
                                     This story was last saved at {`${this.state.saveTime}`}
                                 </span>
@@ -216,31 +217,36 @@ class Editor extends Component {
                                         }}
                                         yes={() => (
                                             <React.Fragment>
-                                                <Col md={3} sm={12}>
+                                                <Col lg={3} sm={12}>
                                                     <input
                                                         type="submit"
-                                                        value={this.state.isPublished ? `Unublish` : `Publish`}
+                                                        value={this.state.isPublished ? `Unpublish` : `Publish`}
                                                         className="EditorButton"
+                                                        ref={ref => {this.publishBtnRef = ref}}
+                                                        id="publishBtn"
                                                         onClick={(event) => {
                                                             event.preventDefault();
-                                                            axios.post(`https://localhost:4000/api/story/${this.state.isPublished ? "unpublish" : "publish"}/${this.state.storyId}`)
+                                                            console.log("Requesting unpublish", this.state.storyId);
+                                                            axios.get(`${process.env.REACT_APP_API_URL}/api/story/${this.state.isPublished ? "unpublish" : "publish"}/${this.state.storyId}`)
                                                                 .then(response => {
-                                                                    window.location.reload();
+                                                                    this.setState({isPublished: !this.state.isPublished});
+                                                                    this.publishBtnRef.value = this.state.isPublished ? `Unpublish` : `Publish`
                                                                 })
                                                                 .catch(err => {
-                                                                    alert("Something went wrong. Try that again.");
+                                                                    alert(JSON.stringify(err.response.data));
                                                                 })
                                                         }}
                                                     />
                                                 </Col>
                                                 {
                                                     this.props.mode == "view"
-                                                        ? <Col md={3} sm={12}>
+                                                        ? <Col lg={3} sm={12}>
                                                             <a href={`/story/edit/${this.state.storyId}`}>
                                                                 <input
                                                                     type="submit"
                                                                     value="Edit"
                                                                     className="EditorButton"
+                                                                    id="editBtn"
                                                                     onClick={(event) => {
                                                                         // event.preventDefault();
                                                                         // this.props.history.push(`http://localhost:3000/story/edit/:storyId/${this.state.storyId}`);
@@ -251,34 +257,36 @@ class Editor extends Component {
                                                         </Col>
                                                         : null
                                                 }
-                                                <Col md={3} sm={12}>
-                                                    <a href={`/${this.state.storyOwner}`}>
-                                                        <input
-                                                            type="submit"
-                                                            value={`Back to ${this.state.storyOwner}'s stories.`}
-                                                            className="EditorButton"
-                                                            onClick={(event) => {
-                                                                // event.preventDefault();
-                                                                // this.props.history.push(`http://localhost:3000/story/edit/:storyId/${this.state.storyId}`);
-                                                                // console.log('Hello!', this.state.storyId);
-                                                            }}
-                                                        />
-                                                    </a>
-                                                </Col>
                                             </React.Fragment>
                                         )}
                                     />
                                     : null
                             }
+                            <Col lg={3} sm={12}>
+                                <a href={`/${this.state.storyOwner}`}>
+                                    <input
+                                        type="submit"
+                                        value={`Back to ${this.state.storyOwner}'s stories.`}
+                                        className="EditorButton"
+                                        id="backBtn"
+                                        onClick={(event) => {
+                                            // event.preventDefault();
+                                            // this.props.history.push(`http://localhost:3000/story/edit/:storyId/${this.state.storyId}`);
+                                            // console.log('Hello!', this.state.storyId);
+                                        }}
+                                    />
+                                </a>
+                            </Col>
                         </Row>
                         <IdleTimer
                             timeout={1500}
                             ref={ref => { this.idleTimer = ref }}
                             startOnMount={false}
-                            events={["keydown"]}
+                            events={["keydown", "mouseup"]}
                             onIdle={this.save}>
                             <Row className="EditorHeader">
                                 <input
+                                    type="text"
                                     className="StoryTitle"
                                     name="storyTitle"
                                     value={this.state.storyTitle}
@@ -289,6 +297,7 @@ class Editor extends Component {
                                         this.setState({ storyTitle: event.target.value, hasChanges: true });
                                     }} />
                                 <input
+                                    type="text"
                                     className="StorySubtitle"
                                     name="storySubtitle"
                                     value={this.state.storySubtitle}
