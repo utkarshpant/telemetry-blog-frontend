@@ -84,7 +84,7 @@ class Stories extends Component {
                                             <React.Fragment>
                                                 {   
                                                     this.state.stories.length != 0
-                                                    ? this.state.stories.sort((a, b) => b.dateModified - a.dateModified).map((story) => {
+                                                    ? this.state.stories.slice().sort((a, b) => ( new Date(b.dateModified) - new Date(a.dateModified))).map((story) => {
                                                         return (
                                                             <StoryCard story={story} key={story._id} handleDeletion={this.handleDeletion} handleUpdation={this.handleUpdation}/>
                                                         )
@@ -101,7 +101,7 @@ class Stories extends Component {
                                                     this.state.stories.filter((story) => {
                                                         return story.isPublished;
                                                     }).length != 0
-                                                        ? this.state.stories.filter((story) => {
+                                                        ? this.state.stories.slice().sort((a, b) => ( new Date(b.dateModified) - new Date(a.dateModified))).filter((story) => {
                                                             return story.isPublished;
                                                         }).map((story) => {
                                                             return <StoryCard story={story} key={story._id} />
