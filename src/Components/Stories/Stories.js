@@ -84,7 +84,7 @@ class Stories extends Component {
                                             <React.Fragment>
                                                 {   
                                                     this.state.stories.length != 0
-                                                    ? this.state.stories.map((story) => {
+                                                    ? this.state.stories.sort((a, b) => b.dateModified - a.dateModified).map((story) => {
                                                         return (
                                                             <StoryCard story={story} key={story._id} handleDeletion={this.handleDeletion} handleUpdation={this.handleUpdation}/>
                                                         )
