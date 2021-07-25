@@ -14,7 +14,7 @@ const Storycard = (props) => {
 
     const onPublishUnpublishHandler = (storyToUpdate) => {
         console.log("Publish unpublish handler called for", storyToUpdate);
-        axios.get(`https://telemetry-blog.herokuapp.com/api/story/${storyToUpdate.isPublished ? "unpublish" : "publish"}/${storyToUpdate._id}`)
+        axios.get(`${process.env.REACT_APP_API_URL}/api/story/${storyToUpdate.isPublished ? "unpublish" : "publish"}/${storyToUpdate._id}`)
             .then(response => {
                 window.location.reload();
             })
@@ -27,7 +27,7 @@ const Storycard = (props) => {
 
     const onDeleteHandler = (deletedStoryId) => {
         console.log("Deletion handler called");
-        axios.delete(`https://telemetry-blog.herokuapp.com/api/story/delete/${deletedStoryId}`)
+        axios.delete(`${process.env.REACT_APP_API_URL}/api/story/delete/${deletedStoryId}`)
             .then(response => {
                 props.handleDeletion(deletedStoryId);
             })
